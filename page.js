@@ -17,15 +17,16 @@ module.exports = {
     linkButton: 'button=Link',
     supportivePlanButton: '//div[contains(text(),"Supportive")]',
     blanketAndHandkerchiefButton: '//span[@class="slider round"]',
+    iceCreamPlusButton: '.counter-plus',
     orderButton: '.smart-button',
     // Options
     blanketAndHandkerchiefOption: '//div[contains(text(),"Blanket and handkerchiefs")]',
-    iceCreamOption: '.counter-plus',
+    iceCreamOption: '//div[contains(text(), "Ice cream")]',
     // Modals
     phoneNumberModal: '.modal',
     carSearchModal: '.order-body',
     // Info within Modal
-    driverInfo: '//div[contains(text(), "The driver will arrive")]',
+    driverInfo: '.order-header-content',
     // Functions
     fillAddresses: async function(from, to) {
         const fromField = await $(this.fromField);
@@ -67,21 +68,16 @@ module.exports = {
         const paymentMethodButton = await $(this.paymentMethodButton);
         await paymentMethodButton.waitForDisplayed();
         await paymentMethodButton.click();
-        await browser.pause(2000);
         const addCardButton = await $(this.addCardButton);
         await addCardButton.waitForDisplayed();
         await addCardButton.click();
-        await browser.pause(2000);
         const cardNumberField = await $(this.cardNumberField);
         await cardNumberField.setValue(cardNumber);
-        await browser.pause(1000);
         const codeNumberField = await $(this.codeNumberField);
         await codeNumberField.setValue(codeNumber);
-        await browser.pause(1000);
         const clickSomewhereElseOnScreen = await $('.app');
         await clickSomewhereElseOnScreen.waitForDisplayed();
         await clickSomewhereElseOnScreen.click();
-        await browser.pause(1000);
         const linkButton = $(this.linkButton);
         await linkButton.waitForClickable();
         await linkButton.click();
@@ -94,6 +90,12 @@ module.exports = {
     openCarSearchModal: async function() {
         const orderButton = await $(this.orderButton);
         await orderButton.waitForDisplayed();
-        await orderButton.click();    
+        await orderButton.click();
+        const carSearchModal = await $(this.carSearchModal);
+        await carSearchModal.waitForDisplayed();
+        await browser.setTimeout({
+            'pageLoad': 12000,
+            'script': 60000
+        }); 
     }
-}
+}   
